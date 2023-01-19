@@ -8,7 +8,9 @@ public interface UserService {
 
 	List<UserDTO> returnAllUsers();
 
-	UserDTO returnUserById(int id);
+	User findUserById(int id);
+
+	User findUserByEmail(String email);
 
 	void deleteUserByUsername(String username);
 

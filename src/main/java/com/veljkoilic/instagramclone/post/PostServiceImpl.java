@@ -3,7 +3,6 @@ package com.veljkoilic.instagramclone.post;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.veljkoilic.instagramclone.exception.NotFoundException;
@@ -20,9 +19,6 @@ public class PostServiceImpl implements PostService {
 
 	private PostMapper postMapper;
 	private UserRepository userRepository;
-
-	@Value("${image.folder.path}")
-	private String imageFolderPath;
 
 	@Override
 	public List<PostDTO> returnPostsByUserId(int id) {

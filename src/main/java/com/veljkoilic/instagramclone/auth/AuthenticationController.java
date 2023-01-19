@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.veljkoilic.instagramclone.emailconfirmation.ConfirmationService;
+import com.veljkoilic.instagramclone.email_confirmation.ConfirmationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

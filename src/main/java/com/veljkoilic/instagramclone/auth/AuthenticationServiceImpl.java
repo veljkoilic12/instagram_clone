@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.veljkoilic.instagramclone.config.JwtServiceImpl;
 import com.veljkoilic.instagramclone.email.EmailService;
-import com.veljkoilic.instagramclone.emailconfirmation.ConfirmationService;
-import com.veljkoilic.instagramclone.emailconfirmation.ConfirmationToken;
+import com.veljkoilic.instagramclone.email_confirmation.ConfirmationService;
+import com.veljkoilic.instagramclone.email_confirmation.ConfirmationToken;
 import com.veljkoilic.instagramclone.exception.BadRequestException;
 import com.veljkoilic.instagramclone.exception.NotFoundException;
 import com.veljkoilic.instagramclone.user.UserRepository;
@@ -59,7 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		ConfirmationToken confToken = createConfirmationToken(user);
 
 		final String link = "http://localhost:8080/auth/confirm?token=" + confToken.getToken();
-		emailService.send(request.getEmail(), link);
+		emailService.send(request.getEmail(), link, "Confirm your Email");
 
 		// Build and return response.
 		return confToken.getToken();

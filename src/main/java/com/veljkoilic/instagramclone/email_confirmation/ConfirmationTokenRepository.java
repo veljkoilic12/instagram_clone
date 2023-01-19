@@ -1,4 +1,4 @@
-package com.veljkoilic.instagramclone.emailconfirmation;
+package com.veljkoilic.instagramclone.email_confirmation;
 
 import java.util.Optional;
 

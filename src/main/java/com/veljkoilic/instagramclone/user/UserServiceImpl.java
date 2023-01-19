@@ -22,11 +22,18 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAllActiveUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
 	}
 
-	public UserDTO returnUserById(int id) {
+	public User findUserById(int id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new NotFoundException("User with id: " + id + " not found."));
 
-		return userMapper.toDto(user);
+		return user;
+	}
+
+	public User findUserByEmail(String email) {
+		User user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new NotFoundException("User with email" + email + "does not exist."));
+
+		return user;
 	}
 
 	public void deleteUserByUsername(String username) {

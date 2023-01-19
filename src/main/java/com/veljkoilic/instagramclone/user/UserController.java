@@ -1,6 +1,7 @@
 package com.veljkoilic.instagramclone.user;
 
 import com.veljkoilic.instagramclone.user.dto.UserDTO;
+import com.veljkoilic.instagramclone.user.dto.UserMapper;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserController {
 
 	private UserService userService;
+	private UserMapper userMapper;
 
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
@@ -28,7 +30,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
-		UserDTO user = userService.returnUserById(id);
+		UserDTO user = userMapper.toDto(userService.findUserById(id));
 		return ResponseEntity.ok(user);
 	}
 
