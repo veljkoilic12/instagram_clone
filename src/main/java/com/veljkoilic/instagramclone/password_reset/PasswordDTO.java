@@ -11,10 +11,10 @@ import lombok.Data;
 public class PasswordDTO {
 
 	@Password
-	@JsonProperty("new_password")
-	private String newPassword;
+	@JsonProperty("password_one")
+	private String passwordOne;
 
 	@Password
-	@JsonProperty("repeated_password")
-	private String repeatedNewPassword;
+	@JsonProperty("password_two")
+	private String passwordTwo;
 }

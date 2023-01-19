@@ -32,4 +32,8 @@ public class RegisterRequest {
 	@NotBlank(message = "Email cannot be empty")
 	@Size(max = 50, message = "Email must not be longer than 50 characters")
 	private String email;
+
+	public void setUsername(String username) {
+		this.username = username.toLowerCase();
+	}
 }

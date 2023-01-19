@@ -19,4 +19,8 @@ public class AuthenticationRequest {
 
 	@Password
 	private String password;
+
+	public void setUsername(String username) {
+		this.username = username.toLowerCase();
+	}
 }

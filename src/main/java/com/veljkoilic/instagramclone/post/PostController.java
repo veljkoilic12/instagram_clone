@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,14 +30,12 @@ public class PostController {
 	}
 
 	@PostMapping
-	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO,
-			@RequestHeader(name = "Authorization") String token) {
-		return ResponseEntity.ok(postService.savePost(postCreationDTO, token));
+	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO) {
+		return ResponseEntity.ok(postService.savePost(postCreationDTO));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> savePost(@PathVariable Integer id,
-			@RequestHeader(name = "Authorization") String token) {
-		return ResponseEntity.ok(postService.deletePost(id, token));
+	public ResponseEntity<String> savePost(@PathVariable Integer id) {
+		return ResponseEntity.ok(postService.deletePost(id));
 	}
 }

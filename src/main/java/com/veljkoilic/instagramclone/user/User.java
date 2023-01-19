@@ -59,6 +59,10 @@ public class User implements UserDetails {
 		this.posts = posts;
 	}
 
+	public void setUsername(String username) {
+		this.username = username.toLowerCase();
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(role.name()));

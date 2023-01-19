@@ -2,7 +2,7 @@ package com.veljkoilic.instagramclone.user;
 
 import java.util.List;
 
-import com.veljkoilic.instagramclone.post.dto.PostDTO;
+import com.veljkoilic.instagramclone.password_reset.PasswordDTO;
 import com.veljkoilic.instagramclone.user.dto.UserDTO;
 
 public interface UserService {
@@ -15,7 +15,13 @@ public interface UserService {
 
 	User findUserByUsername(String username);
 
-	void deleteUserByUsername(String username);
+	void updateUser(String email, String username);
+
+	void updatePassword(PasswordDTO passwordDTO);
+
+	void deleteUserByUsername(String username, String token);
 
 	void confirmUserEmail(String email);
+
+	User getCurrentUser();
 }

@@ -6,7 +6,7 @@ public interface PostService {
 
 	Post findPostById(int id);
 
-	String savePost(PostCreationDTO postCreationDTO, String token);
-	
-	String deletePost(Integer id, String token);
+	String savePost(PostCreationDTO postCreationDTO);
+
+	String deletePost(Integer id);
 }

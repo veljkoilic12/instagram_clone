@@ -51,7 +51,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
 	// Check for password match in passed DTO
 	public boolean arePasswordsMatching(PasswordDTO passwordDTO) {
-		return passwordDTO.getNewPassword().equals(passwordDTO.getRepeatedNewPassword());
+		return passwordDTO.getPasswordOne().equals(passwordDTO.getPasswordTwo());
 	}
 
 	// Validate Token and password matching
@@ -77,7 +77,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
 		User user = userService.findUserById(resetToken.getUser().getId());
 
-		user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+		user.setPassword(passwordEncoder.encode(passwordDTO.getPasswordOne()));
 		userRepository.save(user);
 
 		return "Successfully changed password!";

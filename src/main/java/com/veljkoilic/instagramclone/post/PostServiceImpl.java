@@ -2,7 +2,6 @@ package com.veljkoilic.instagramclone.post;
 
 import org.springframework.stereotype.Service;
 
-import com.veljkoilic.instagramclone.config.JwtService;
 import com.veljkoilic.instagramclone.exception.NotFoundException;
 import com.veljkoilic.instagramclone.exception.UnauthorizedException;
 import com.veljkoilic.instagramclone.post.dto.PostCreationDTO;
@@ -19,7 +18,6 @@ public class PostServiceImpl implements PostService {
 	private PostRepository postRepository;
 	private PostMapper postMapper;
 	private UserService userService;
-	private JwtService jwtService;
 
 	@Override
 	public Post findPostById(int id) {
@@ -33,9 +31,9 @@ public class PostServiceImpl implements PostService {
 	// Converts DTO to post, extracts User from the token and saves the Post with
 	// user_id set as extracted User
 	@Override
-	public String savePost(PostCreationDTO postCreationDTO, String token) {
+	public String savePost(PostCreationDTO postCreationDTO) {
 		Post post = postMapper.toPost(postCreationDTO);
-		User currentUser = extractUserFromToken(token);
+		User currentUser = userService.getCurrentUser();
 
 		post.setUser(currentUser);
 
@@ -45,10 +43,10 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public String deletePost(Integer id, String token) {
+	public String deletePost(Integer id) {
 
 		Post post = this.findPostById(id);
-		User currentUser = this.extractUserFromToken(token);
+		User currentUser = userService.getCurrentUser();
 
 		int postCreatorId = post.getUser().getId();
 		int currentUserId = currentUser.getId();
@@ -62,11 +60,4 @@ public class PostServiceImpl implements PostService {
 		return "Post successfully deleted";
 	}
 
-	// Extract user from token got in request header
-	private User extractUserFromToken(String token) {
-		String jwt = token.substring(7);
-
-		String currentUserUsername = jwtService.extractUsername(jwt);
-		return userService.findUserByUsername(currentUserUsername);
-	}
 }
