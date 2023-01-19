@@ -24,13 +24,13 @@ public class UserController {
 
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
-		List<UserDTO> userList = userService.returnAllUsers();
+		List<UserDTO> userList = userService.findAllUsers();
 		return ResponseEntity.ok(userList);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<UserDTO> getUserById(@PathVariable Integer id) {
-		UserDTO user = userMapper.toDto(userService.findUserById(id));
+	@GetMapping("/{username}")
+	public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
+		UserDTO user = userMapper.toDto(userService.findUserByUsername(username));
 		return ResponseEntity.ok(user);
 	}
 

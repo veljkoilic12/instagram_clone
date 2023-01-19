@@ -1,6 +1,5 @@
 package com.veljkoilic.instagramclone.config;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -24,8 +23,4 @@ public interface JwtService {
 	boolean isTokenExpired(String token);
 
 	Date extractExpiration(String token);
-
-	Claims extractAllClaims(String token);
-
-	Key getSignInKey();
 }

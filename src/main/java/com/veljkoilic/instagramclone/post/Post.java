@@ -22,13 +22,10 @@ public class Post {
 
 	private String description;
 
-	private String imagePath;
-
 	@ManyToOne
 	private User user;
 
-	public Post(String description, User user) {
+	public Post(String description) {
 		this.description = description;
-		this.user = user;
 	}
 }

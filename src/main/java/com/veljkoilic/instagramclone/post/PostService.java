@@ -1,10 +1,10 @@
 package com.veljkoilic.instagramclone.post;
 
-import com.veljkoilic.instagramclone.post.dto.PostDTO;
-import java.util.List;
+import com.veljkoilic.instagramclone.post.dto.PostCreationDTO;
 
 public interface PostService {
 
-	List<PostDTO> returnPostsByUserId(int id);
-	
+	Post findPostById(int id);
+
+	String savePost(PostCreationDTO postCreationDTO, String token);
 }

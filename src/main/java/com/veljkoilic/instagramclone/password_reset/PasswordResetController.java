@@ -3,6 +3,7 @@ package com.veljkoilic.instagramclone.password_reset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,12 @@ public class PasswordResetController {
 	@PostMapping("/resetPassword")
 	public ResponseEntity<String> resetPassword(@RequestParam(name = "email") String userEmail) {
 		return ResponseEntity.ok(passwordResetService.sendToken(userEmail));
+	}
+
+	@GetMapping("/changePassword")
+	public String changePasswordPage(@RequestParam(name = "token") String token) {
+		// TODO return change password page
+		return token;
 	}
 
 	@PostMapping("/changePassword")

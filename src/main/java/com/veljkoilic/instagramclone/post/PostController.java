@@ -1,13 +1,17 @@
 package com.veljkoilic.instagramclone.post;
 
-import java.util.List;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.veljkoilic.instagramclone.post.dto.PostCreationDTO;
 import com.veljkoilic.instagramclone.post.dto.PostDTO;
+import com.veljkoilic.instagramclone.post.dto.PostMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -16,9 +20,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PostController {
 
+	private PostMapper postMapper;
+	private PostService postService;
+
 	@GetMapping("/{id}")
-	public List<PostDTO> getAllUserPosts(@PathVariable Integer id) {
-		return null;
+	public ResponseEntity<PostDTO> get(@PathVariable Integer id) {
+		PostDTO postDto = postMapper.toDto(postService.findPostById(id));
+		return ResponseEntity.ok(postDto);
 	}
 
+	@PostMapping
+	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO, @RequestHeader (name="Authorization") String token) {
+		return ResponseEntity.ok(postService.savePost(postCreationDTO, token));
+	}
 }

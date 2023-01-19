@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PostDTO {
 	
 	private String description;
+	private String postPath;
 }

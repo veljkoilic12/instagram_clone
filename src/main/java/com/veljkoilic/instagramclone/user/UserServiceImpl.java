@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	private UserMapper userMapper;
 
-	public List<UserDTO> returnAllUsers() {
+	public List<UserDTO> findAllUsers() {
 		return userRepository.findAllActiveUsers().stream().map(userMapper::toDto).collect(Collectors.toList());
 	}
 
@@ -32,6 +32,13 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(String email) {
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new NotFoundException("User with email" + email + "does not exist."));
+
+		return user;
+	}
+
+	public User findUserByUsername(String username) {
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new NotFoundException("User with username: " + username + " does not exist."));
 
 		return user;
 	}
