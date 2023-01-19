@@ -24,4 +24,6 @@ public interface UserService {
 	void confirmUserEmail(String email);
 
 	User getCurrentUser();
+
+	List<UserDTO> searchUsers(String username);
 }

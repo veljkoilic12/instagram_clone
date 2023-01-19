@@ -23,19 +23,21 @@ public class PostController {
 	private PostMapper postMapper;
 	private PostService postService;
 
-	@GetMapping("/{id}")
-	public ResponseEntity<PostDTO> get(@PathVariable Integer id) {
-		PostDTO postDto = postMapper.toDto(postService.findPostById(id));
+	@GetMapping("/{imageName}")
+	public ResponseEntity<PostDTO> get(@PathVariable String imageName) {
+		PostDTO postDto = postMapper.toDto(postService.findPostByImageName(imageName));
 		return ResponseEntity.ok(postDto);
 	}
 
 	@PostMapping
 	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO) {
-		return ResponseEntity.ok(postService.savePost(postCreationDTO));
+		postService.savePost(postCreationDTO);
+		return ResponseEntity.ok("Post successfully saved");
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> savePost(@PathVariable Integer id) {
-		return ResponseEntity.ok(postService.deletePost(id));
+	@DeleteMapping("/{imageName}")
+	public ResponseEntity<String> savePost(@PathVariable String imageName) {
+		postService.deletePost(imageName);
+		return ResponseEntity.ok("Post successfully deleted");
 	}
 }

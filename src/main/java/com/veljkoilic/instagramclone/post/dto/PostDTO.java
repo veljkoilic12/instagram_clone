@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {
-	
+
 	private String description;
-	private String postPath;
+	private String imageName;
 }

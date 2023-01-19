@@ -130,4 +130,10 @@ public class UserServiceImpl implements UserService {
 		String currentUserUsername = authentication.getName();
 		return this.findUserByUsername(currentUserUsername);
 	}
+
+	@Override
+	public List<UserDTO> searchUsers(String username) {
+		username = username.toLowerCase();
+		return userRepository.search(username).stream().map(userMapper::toDto).collect(Collectors.toList());
+	}
 }

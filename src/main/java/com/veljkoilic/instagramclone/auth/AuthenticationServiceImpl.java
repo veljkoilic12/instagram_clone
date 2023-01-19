@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private final ConfirmationService confirmationService;
 	private final EmailService emailService;
 
+	@Value("${localhost.link}")
+	private String siteUrl;
+
 	public String register(RegisterRequest request) {
 
 		// Check if username or email already exist
@@ -58,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 		ConfirmationToken confToken = createConfirmationToken(user);
 
-		final String link = "http://localhost:8080/auth/confirm?token=" + confToken.getToken();
+		final String link = siteUrl + "/auth/confirm?token=" + confToken.getToken();
 		emailService.send(request.getEmail(), link, "Confirm your Email");
 
 		// Build and return response.

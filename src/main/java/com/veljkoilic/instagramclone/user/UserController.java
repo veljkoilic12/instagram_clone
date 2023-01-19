@@ -58,4 +58,9 @@ public class UserController {
 		userService.updatePassword(passwordDTO);
 		return ResponseEntity.ok("Password successfully updated");
 	}
+
+	@GetMapping("/search/{username}")
+	public ResponseEntity<List<UserDTO>> searchForUsersWithUsername(@PathVariable String username) {
+		return ResponseEntity.ok(userService.searchUsers(username));
+	}
 }

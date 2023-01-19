@@ -4,9 +4,9 @@ import com.veljkoilic.instagramclone.post.dto.PostCreationDTO;
 
 public interface PostService {
 
-	Post findPostById(int id);
+	Post findPostByImageName(String id);
 
-	String savePost(PostCreationDTO postCreationDTO);
+	void savePost(PostCreationDTO postCreationDTO);
 
-	String deletePost(Integer id);
+	void deletePost(String imageName);
 }

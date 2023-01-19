@@ -1,5 +1,8 @@
 package com.veljkoilic.instagramclone.post;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.veljkoilic.instagramclone.exception.NotFoundException;
@@ -20,10 +23,10 @@ public class PostServiceImpl implements PostService {
 	private UserService userService;
 
 	@Override
-	public Post findPostById(int id) {
+	public Post findPostByImageName(String imageName) {
 
-		Post post = postRepository.findById(id)
-				.orElseThrow(() -> new NotFoundException("Post with id:" + id + " not found."));
+		Post post = postRepository.findByImageName(imageName)
+				.orElseThrow(() -> new NotFoundException("Image with name: " + imageName + " not found."));
 
 		return post;
 	}
@@ -31,21 +34,29 @@ public class PostServiceImpl implements PostService {
 	// Converts DTO to post, extracts User from the token and saves the Post with
 	// user_id set as extracted User
 	@Override
-	public String savePost(PostCreationDTO postCreationDTO) {
+	public void savePost(PostCreationDTO postCreationDTO) {
 		Post post = postMapper.toPost(postCreationDTO);
 		User currentUser = userService.getCurrentUser();
 
+		String imageName = UUID.randomUUID().toString();
+
+		Optional<Post> checkForImageNamePost = postRepository.findByImageName(imageName);
+
+		while (!checkForImageNamePost.isEmpty()) {
+			imageName = UUID.randomUUID().toString();
+			checkForImageNamePost = postRepository.findByImageName(imageName);
+		}
+
+		post.setImageName(imageName);
 		post.setUser(currentUser);
 
-		Post savedPost = postRepository.save(post);
-
-		return postMapper.toDto(savedPost).getPostPath();
+		postRepository.save(post);
 	}
 
 	@Override
-	public String deletePost(Integer id) {
+	public void deletePost(String imageName) {
 
-		Post post = this.findPostById(id);
+		Post post = this.findPostByImageName(imageName);
 		User currentUser = userService.getCurrentUser();
 
 		int postCreatorId = post.getUser().getId();
@@ -55,9 +66,7 @@ public class PostServiceImpl implements PostService {
 			throw new UnauthorizedException("You are not authorized to delete this post!");
 		}
 
-		postRepository.deleteById(id);
-
-		return "Post successfully deleted";
+		postRepository.deleteByImageName(imageName);
 	}
 
 }

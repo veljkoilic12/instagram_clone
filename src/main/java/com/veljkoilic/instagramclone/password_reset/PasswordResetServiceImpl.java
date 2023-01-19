@@ -3,6 +3,7 @@ package com.veljkoilic.instagramclone.password_reset;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,9 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 
+	@Value("${localhost.link}")
+	private String siteUrl;
+
 	// Create Password Reset Token and save it to the Database
 	public void createPasswordResetTokenForUser(User user, String token) {
 		PasswordResetToken resetToken = new PasswordResetToken(token, user, LocalDateTime.now().plusHours(2));
@@ -38,7 +42,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
 		createPasswordResetTokenForUser(user, token);
 
-		final String link = "http://localhost:8080/auth/changePassword?token=" + token;
+		final String link = siteUrl + "/auth/changePassword?token=" + token;
 		emailService.send(user.getEmail(), link, "Password reset");
 
 		return "Reset Email successfully sent!";

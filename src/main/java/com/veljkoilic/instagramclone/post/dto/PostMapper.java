@@ -18,9 +18,9 @@ public class PostMapper {
 
 	public PostDTO toDto(Post post) {
 		String description = post.getDescription();
-		String path = this.getImageFolderPath() + post.getId();
+		String imageName = post.getImageName();
 
-		return new PostDTO(description, path);
+		return new PostDTO(description, imageName);
 	}
 
 	public Post toPost(PostCreationDTO postDTO) {
