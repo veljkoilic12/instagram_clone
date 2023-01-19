@@ -71,8 +71,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-		System.out.println(request.getPassword());
-
 		String username = request.getUsername();
 
 		// If we got to this point, user is authenticated
