@@ -39,6 +39,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<ErrorMessage> unauthorizedException(UnauthorizedException ex, WebRequest request) {
+		ErrorMessage message = ErrorMessage.builder().statusCode(HttpStatus.UNAUTHORIZED.value()).timestamp(new Date())
+				.message(ex.getMessage()).description(request.getDescription(false)).build();
+
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.UNAUTHORIZED);
+	}
+
 	@Override
 	@Nullable
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

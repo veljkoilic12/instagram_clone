@@ -1,11 +1,10 @@
 package com.veljkoilic.instagramclone.post;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.veljkoilic.instagramclone.config.JwtService;
 import com.veljkoilic.instagramclone.exception.NotFoundException;
+import com.veljkoilic.instagramclone.exception.UnauthorizedException;
 import com.veljkoilic.instagramclone.post.dto.PostCreationDTO;
 import com.veljkoilic.instagramclone.post.dto.PostMapper;
 import com.veljkoilic.instagramclone.user.User;
@@ -36,17 +35,38 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public String savePost(PostCreationDTO postCreationDTO, String token) {
 		Post post = postMapper.toPost(postCreationDTO);
-
-		String jwt = token.substring(7);
-		System.out.println(jwt);
-
-		String currentUserUsername = jwtService.extractUsername(jwt);
-		User currentUser = userService.findUserByUsername(currentUserUsername);
+		User currentUser = extractUserFromToken(token);
 
 		post.setUser(currentUser);
 
 		Post savedPost = postRepository.save(post);
 
 		return postMapper.toDto(savedPost).getPostPath();
+	}
+
+	@Override
+	public String deletePost(Integer id, String token) {
+
+		Post post = this.findPostById(id);
+		User currentUser = this.extractUserFromToken(token);
+
+		int postCreatorId = post.getUser().getId();
+		int currentUserId = currentUser.getId();
+
+		if (postCreatorId != currentUserId) {
+			throw new UnauthorizedException("You are not authorized to delete this post!");
+		}
+
+		postRepository.deleteById(id);
+
+		return "Post successfully deleted";
+	}
+
+	// Extract user from token got in request header
+	private User extractUserFromToken(String token) {
+		String jwt = token.substring(7);
+
+		String currentUserUsername = jwtService.extractUsername(jwt);
+		return userService.findUserByUsername(currentUserUsername);
 	}
 }

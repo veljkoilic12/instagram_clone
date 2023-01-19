@@ -1,6 +1,7 @@
 package com.veljkoilic.instagramclone.post;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,14 @@ public class PostController {
 	}
 
 	@PostMapping
-	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO, @RequestHeader (name="Authorization") String token) {
+	public ResponseEntity<String> savePost(@RequestBody PostCreationDTO postCreationDTO,
+			@RequestHeader(name = "Authorization") String token) {
 		return ResponseEntity.ok(postService.savePost(postCreationDTO, token));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> savePost(@PathVariable Integer id,
+			@RequestHeader(name = "Authorization") String token) {
+		return ResponseEntity.ok(postService.deletePost(id, token));
 	}
 }
