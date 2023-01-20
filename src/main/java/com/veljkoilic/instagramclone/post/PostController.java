@@ -41,9 +41,4 @@ public class PostController {
 		postService.deletePost(imageName);
 		return ResponseEntity.ok("Post successfully deleted");
 	}
-
-	@PostMapping("/justimage")
-	public void saveJustImage(@RequestParam("image") MultipartFile image) {
-		postService.saveImage(image, "dajboze");
-	}
 }
