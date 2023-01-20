@@ -14,6 +14,7 @@ import com.veljkoilic.instagramclone.exception.UnauthorizedException;
 import com.veljkoilic.instagramclone.password_reset.PasswordDTO;
 import com.veljkoilic.instagramclone.user.dto.UserDTO;
 import com.veljkoilic.instagramclone.user.dto.UserMapper;
+import com.veljkoilic.instagramclone.user.dto.UserUpdateDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -55,31 +56,32 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(String email, String username) {
+	public void updateUser(UserUpdateDTO userUpdateDTO) {
+
+		String email = userUpdateDTO.getEmail();
+		String username = userUpdateDTO.getUsername();
+
+		User currentUser = getCurrentUser();
 
 		if (email != null) {
-			User currentUser = getCurrentUser();
-
 			if (userRepository.findByEmail(email) == null)
 				throw new BadRequestException("Username with " + email + " email already exists");
 
 			currentUser.setEmail(email);
-			userRepository.save(currentUser);
 		}
 
 		if (username != null) {
 			if (userRepository.findByUsername(username) == null)
 				throw new BadRequestException("Username with " + username + " username already exists");
 
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			User userDetails = (User) authentication.getPrincipal();
-			userDetails.setUsername(username);
-			userRepository.save(userDetails);
+			currentUser.setUsername(username);
 		}
 
 		if (username == null && email == null) {
 			throw new BadRequestException("Provide email or username to change");
 		}
+
+		userRepository.save(currentUser);
 	}
 
 	@Override

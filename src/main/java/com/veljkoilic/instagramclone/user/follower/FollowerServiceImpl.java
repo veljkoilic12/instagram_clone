@@ -22,4 +22,14 @@ public class FollowerServiceImpl implements FollowerService {
 		userToFollow.getFollowers().add(currentUser);
 		userRepository.save(userToFollow);
 	}
+
+	@Override
+	public void unfollowUser(String username) {
+
+		User currentUser = userService.getCurrentUser();
+		User userToUnfollow = userService.findUserByUsername(username);
+
+		userToUnfollow.getFollowers().remove(currentUser);
+		userRepository.save(userToUnfollow);
+	}
 }

@@ -3,6 +3,7 @@ package com.veljkoilic.instagramclone.user;
 import com.veljkoilic.instagramclone.password_reset.PasswordDTO;
 import com.veljkoilic.instagramclone.user.dto.UserDTO;
 import com.veljkoilic.instagramclone.user.dto.UserMapper;
+import com.veljkoilic.instagramclone.user.dto.UserUpdateDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +48,8 @@ public class UserController {
 	}
 
 	@PutMapping
-	public ResponseEntity<String> updateUserEmail(@RequestParam(name = "email", required = false) String email,
-			@RequestParam(name = "username", required = false) String username) {
-		userService.updateUser(email, username);
+	public ResponseEntity<String> updateUserEmail(@RequestBody UserUpdateDTO userUpdateDTO) {
+		userService.updateUser(userUpdateDTO);
 		return ResponseEntity.ok("User successfully updated");
 	}
 

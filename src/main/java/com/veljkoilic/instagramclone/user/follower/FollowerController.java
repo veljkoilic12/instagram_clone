@@ -18,4 +18,9 @@ public class FollowerController {
 		followerService.followUser(username);
 		return ResponseEntity.ok("Successfully followed " + username);
 	}
+
+	@PostMapping("/unfollow/{username}")
+	public ResponseEntity<String> unfollowUser(@PathVariable String username) {
+		return ResponseEntity.ok("Successfully unfollowed " + username);
+	}
 }

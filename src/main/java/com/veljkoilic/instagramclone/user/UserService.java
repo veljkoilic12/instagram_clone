@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.veljkoilic.instagramclone.password_reset.PasswordDTO;
 import com.veljkoilic.instagramclone.user.dto.UserDTO;
+import com.veljkoilic.instagramclone.user.dto.UserUpdateDTO;
 
 public interface UserService {
 
@@ -15,7 +16,7 @@ public interface UserService {
 
 	User findUserByUsername(String username);
 
-	void updateUser(String email, String username);
+	void updateUser(UserUpdateDTO userUpdateDTO);
 
 	void updatePassword(PasswordDTO passwordDTO);
 
