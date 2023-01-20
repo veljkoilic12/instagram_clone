@@ -21,7 +21,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 		confirmationTokenRepository.save(token);
 	}
 
-	public String confirmToken(String token) {
+	public void confirmToken(String token) {
 		ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
 				.orElseThrow(() -> new NotFoundException("Token not found"));
 
@@ -37,7 +37,5 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
 		confirmationToken.setConfirmedAt(LocalDateTime.now());
 		userService.confirmUserEmail(confirmationToken.getUser().getEmail());
-
-		return "User confirmed";
 	}
 }

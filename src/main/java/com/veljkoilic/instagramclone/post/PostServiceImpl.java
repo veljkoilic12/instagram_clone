@@ -24,8 +24,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
-	@Value("${image.folder.path}")
-	private String imageFolderPath;
+	@Value("${relative.image.folder.path}")
+	private String relativeImageFolderPath;
+
+	private String applicationPath = System.getProperty("user.dir");
 
 	@Autowired
 	private PostRepository postRepository;
@@ -84,7 +86,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void saveImage(MultipartFile file, String imageName) {
 
-		String path = imageFolderPath + imageName + ".jpg";
+		String path = applicationPath + relativeImageFolderPath + imageName + ".jpg";
 
 		try {
 			File newFile = new File(path);
@@ -93,7 +95,8 @@ public class PostServiceImpl implements PostService {
 
 			fileStream.write(file.getBytes());
 			fileStream.close();
-			System.out.println("FILE SAVED");
+
+			System.out.println(path);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -41,4 +41,9 @@ public class PostController {
 		postService.deletePost(imageName);
 		return ResponseEntity.ok("Post successfully deleted");
 	}
+
+	@GetMapping("/print")
+	public String print() {
+		return System.getProperty("user.dir");
+	}
 }

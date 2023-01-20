@@ -33,6 +33,7 @@ public class AuthenticationController {
 
 	@GetMapping("/confirm")
 	public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
-		return ResponseEntity.ok(confirmationService.confirmToken(token));
+		confirmationService.confirmToken(token);
+		return ResponseEntity.ok("Check your email for confirmation link");
 	}
 }
