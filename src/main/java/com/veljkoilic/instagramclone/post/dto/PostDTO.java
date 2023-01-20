@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class PostDTO {
 
 	private String description;
-	private String imageName;
+	private String imageLink;
 }
