@@ -20,30 +20,25 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PostController {
 
-	private PostMapper postMapper;
-	private PostService postService;
+    private PostMapper postMapper;
+    private PostService postService;
 
-	@GetMapping("/{imageName}")
-	public ResponseEntity<PostDTO> get(@PathVariable String imageName) {
-		PostDTO postDto = postMapper.toDto(postService.findPostByImageName(imageName));
-		return ResponseEntity.ok(postDto);
-	}
+    @GetMapping("/{imageName}")
+    public ResponseEntity<PostDTO> get(@PathVariable String imageName) {
+        PostDTO postDto = postMapper.toDto(postService.findPostByImageName(imageName));
+        return ResponseEntity.ok(postDto);
+    }
 
-	@PostMapping
-	public ResponseEntity<String> savePost(@RequestParam("description") String description,
-			@RequestParam("image") MultipartFile image) {
-		postService.savePost(description, image);
-		return ResponseEntity.ok("Post successfully saved");
-	}
+    @PostMapping
+    public ResponseEntity<String> savePost(@RequestParam("description") String description,
+                                           @RequestParam("image") MultipartFile image) {
+        postService.savePost(description, image);
+        return ResponseEntity.ok("Post successfully saved");
+    }
 
-	@DeleteMapping("/{imageName}")
-	public ResponseEntity<String> savePost(@PathVariable String imageName) {
-		postService.deletePost(imageName);
-		return ResponseEntity.ok("Post successfully deleted");
-	}
-
-	@GetMapping("/print")
-	public String print() {
-		return System.getProperty("user.dir");
-	}
+    @DeleteMapping("/{imageName}")
+    public ResponseEntity<String> savePost(@PathVariable String imageName) {
+        postService.deletePost(imageName);
+        return ResponseEntity.ok("Post successfully deleted");
+    }
 }

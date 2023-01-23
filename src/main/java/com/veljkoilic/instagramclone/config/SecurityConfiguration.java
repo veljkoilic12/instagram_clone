@@ -16,23 +16,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-	private final JwtAuthenticationFilter jwtAuthFilter;
-	private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		// disable csrf
-		// any request in requestMatchers is permitted without authorization
-		// any other request needs to be authenticated
-		// Stateless connection
-		// in the end, add filter to the chain before
-		// UsernamePasswordAuthenticationFilter
-		http.csrf().disable().authorizeHttpRequests().requestMatchers("/auth/**").permitAll().anyRequest()
-				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authenticationProvider(authenticationProvider)
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        // disable csrf
+        // any request in requestMatchers is permitted without authorization
+        // any other request needs to be authenticated
+        // Stateless connection
+        // in the end, add filter to the chain before
+        // UsernamePasswordAuthenticationFilter
+        http.csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/auth/**")
+                .permitAll().anyRequest()
+                .authenticated().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-		return http.build();
-	}
+        return http.build();
+    }
 }

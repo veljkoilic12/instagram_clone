@@ -1,5 +1,7 @@
 package com.veljkoilic.instagramclone.auth;
 
+import com.veljkoilic.instagramclone.password_reset.PasswordDTO;
+import com.veljkoilic.instagramclone.password_reset.PasswordResetService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,22 +20,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-	private final AuthenticationService authenticationService;
-	private final ConfirmationService confirmationService;
+    private final AuthenticationService authenticationService;
+    private final ConfirmationService confirmationService;
+    private final PasswordResetService passwordResetService;
 
-	@PostMapping("/register")
-	public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
-		return ResponseEntity.ok(authenticationService.register(request));
-	}
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authenticationService.register(request));
+    }
 
-	@PostMapping("/login")
-	public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
-		return ResponseEntity.ok(authenticationService.authenticate(request));
-	}
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
 
-	@GetMapping("/confirm")
-	public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
-		confirmationService.confirmToken(token);
-		return ResponseEntity.ok("Check your email for confirmation link");
-	}
+    @GetMapping("/confirm")
+    public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
+        confirmationService.confirmToken(token);
+        return ResponseEntity.ok("Check your email for confirmation link");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam(name = "email") String userEmail) {
+        return ResponseEntity.ok(passwordResetService.sendToken(userEmail));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam(name = "token") String token,
+                                                 @RequestBody PasswordDTO passwordDTO) {
+        return ResponseEntity.ok(passwordResetService.changeUserPassword(token, passwordDTO));
+    }
 }
