@@ -30,33 +30,28 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> userList = userService.findAllUsers();
-        return ResponseEntity.ok(userList);
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
-        UserDTO user = userMapper.toDto(userService.findUserByUsername(username));
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userMapper.toDto(userService.findUserByUsername(username)));
     }
 
     @DeleteMapping("/{username}")
     public ResponseEntity<String> deleteUser(@PathVariable String username,
                                              @RequestHeader(name = "Authorization") String token) {
-        userService.deleteUserByUsername(username, token);
-        return ResponseEntity.ok("User successfully deleted");
+        return ResponseEntity.ok(userService.deleteUserByUsername(username, token));
     }
 
     @PutMapping
     public ResponseEntity<String> updateUserEmail(@RequestBody UserUpdateDTO userUpdateDTO) {
-        userService.updateUser(userUpdateDTO);
-        return ResponseEntity.ok("User successfully updated");
+        return ResponseEntity.ok(userService.updateUser(userUpdateDTO));
     }
 
     @PutMapping("/change-password")
     public ResponseEntity<String> updatePassword(@RequestBody PasswordDTO passwordDTO) {
-        userService.updatePassword(passwordDTO);
-        return ResponseEntity.ok("Password successfully updated");
+        return ResponseEntity.ok(userService.updatePassword(passwordDTO));
     }
 
     @GetMapping("/search/{username}")

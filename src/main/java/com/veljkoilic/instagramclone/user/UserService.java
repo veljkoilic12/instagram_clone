@@ -8,23 +8,23 @@ import com.veljkoilic.instagramclone.user.dto.UserUpdateDTO;
 
 public interface UserService {
 
-	List<UserDTO> findAllUsers();
+    List<UserDTO> findAllUsers();
 
-	User findUserById(int id);
+    User findUserById(int id);
 
-	User findUserByEmail(String email);
+    User findUserByEmail(String email);
 
-	User findUserByUsername(String username);
+    User findUserByUsername(String username);
 
-	void updateUser(UserUpdateDTO userUpdateDTO);
+    String updateUser(UserUpdateDTO userUpdateDTO);
 
-	void updatePassword(PasswordDTO passwordDTO);
+    String updatePassword(PasswordDTO passwordDTO);
 
-	void deleteUserByUsername(String username, String token);
+    String deleteUserByUsername(String username, String token);
 
-	void confirmUserEmail(String email);
+    void confirmUserEmail(String email);
 
-	User getCurrentUser();
+    User getCurrentUser();
 
-	List<UserDTO> searchUsers(String username);
+    List<UserDTO> searchUsers(String username);
 }

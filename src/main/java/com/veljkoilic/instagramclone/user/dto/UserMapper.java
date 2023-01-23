@@ -15,12 +15,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserMapper {
 
-	private PostMapper postMapper;
+    private PostMapper postMapper;
 
-	public UserDTO toDto(User user) {
-		String username = user.getUsername();
-		String email = user.getEmail();
-		List<PostDTO> posts = user.getPosts().stream().map(postMapper::toDto).collect(Collectors.toList());
-		return new UserDTO(username, email, posts);
-	}
+    public UserDTO toDto(User user) {
+        String username = user.getUsername();
+        String email = user.getEmail();
+        return new UserDTO(username, email);
+    }
 }

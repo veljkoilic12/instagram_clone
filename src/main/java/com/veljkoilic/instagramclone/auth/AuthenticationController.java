@@ -36,8 +36,7 @@ public class AuthenticationController {
 
     @GetMapping("/confirm")
     public ResponseEntity<String> confirmEmail(@RequestParam("token") String token) {
-        confirmationService.confirmToken(token);
-        return ResponseEntity.ok("Check your email for confirmation link");
+        return ResponseEntity.ok(confirmationService.confirmToken(token));
     }
 
     @PostMapping("/reset-password")

@@ -14,28 +14,30 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ConfirmationServiceImpl implements ConfirmationService {
 
-	private final ConfirmationTokenRepository confirmationTokenRepository;
-	private final UserService userService;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final UserService userService;
 
-	public void saveConfirmationToken(ConfirmationToken token) {
-		confirmationTokenRepository.save(token);
-	}
+    public void saveConfirmationToken(ConfirmationToken token) {
+        confirmationTokenRepository.save(token);
+    }
 
-	public void confirmToken(String token) {
-		ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
-				.orElseThrow(() -> new NotFoundException("Token not found"));
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new NotFoundException("Token not found"));
 
-		if (confirmationToken.getConfirmedAt() != null) {
-			throw new BadRequestException("email already confirmed");
-		}
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new BadRequestException("email already confirmed");
+        }
 
-		LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
-		if (expiredAt.isBefore(LocalDateTime.now())) {
-			throw new BadRequestException("token expired");
-		}
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("token expired");
+        }
 
-		confirmationToken.setConfirmedAt(LocalDateTime.now());
-		userService.confirmUserEmail(confirmationToken.getUser().getEmail());
-	}
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
+        userService.confirmUserEmail(confirmationToken.getUser().getEmail());
+
+        return "Your account has been successfully confirmed!";
+    }
 }

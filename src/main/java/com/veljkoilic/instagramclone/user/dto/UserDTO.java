@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
 
-	private String username;
-	private String email;
-	private List<PostDTO> posts;
+    private String username;
+    private String email;
 }

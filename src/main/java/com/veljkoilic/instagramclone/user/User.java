@@ -35,77 +35,77 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User implements UserDetails {
 
-	@Id
-	@SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
-	private Integer id;
+    @Id
+    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    private Integer id;
 
-	@Column(unique = true)
-	private String username;
+    @Column(unique = true)
+    private String username;
 
-	private String password;
+    private String password;
 
-	@Column(unique = true)
-	private String email;
+    @Column(unique = true)
+    private String email;
 
-	@Enumerated(EnumType.ORDINAL)
-	private Role role;
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
 
-	private boolean isUserDeleted;
+    private boolean isUserDeleted;
 
-	private boolean isUserEnabled;
+    private boolean enabled;
 
-	@OneToMany(mappedBy = "user")
-	private List<Post> posts;
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 
-	@OneToMany(mappedBy = "creator")
-	private List<Comment> comments;
+    @OneToMany(mappedBy = "creator")
+    private List<Comment> comments;
 
-	@ManyToMany
-	@Column(name = "follower")
-	private Set<User> followers = new HashSet<>();
+    @ManyToMany
+    @Column(name = "follower")
+    private Set<User> followers = new HashSet<>();
 
-	@ManyToMany(mappedBy = "followers")
-	@Column(name = "follows")
-	Set<User> following = new HashSet<>();
+    @ManyToMany(mappedBy = "followers")
+    @Column(name = "follows")
+    Set<User> following = new HashSet<>();
 
-	public User(String username, String email, List<Post> posts) {
-		this.username = username;
-		this.email = email;
-		this.posts = posts;
-	}
+    public User(String username, String email, List<Post> posts) {
+        this.username = username;
+        this.email = email;
+        this.posts = posts;
+    }
 
-	public void setUsername(String username) {
-		this.username = username.toLowerCase();
-	}
+    public void setUsername(String username) {
+        this.username = username.toLowerCase();
+    }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(role.name()));
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }
