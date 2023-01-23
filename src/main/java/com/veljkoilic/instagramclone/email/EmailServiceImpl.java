@@ -15,26 +15,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-	private final JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(EmailServiceImpl.class);
+    @Override
+    @Async
+    public void send(String to, String email, String subject) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(email, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setFrom("veljko@instagram.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
 
-	@Override
-	@Async
-	public void send(String to, String email, String subject) {
-		try {
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-			helper.setText(email, true);
-			helper.setTo(to);
-			helper.setSubject(subject);
-			helper.setFrom("veljko@instagram.com");
-			mailSender.send(mimeMessage);
-		} catch (MessagingException e) {
-
-			LOGGER.error("Failed to send email", e);
-			throw new IllegalStateException("failed to send email");
-		}
-	}
+            throw new IllegalStateException("failed to send email");
+        }
+    }
 
 }

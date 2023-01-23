@@ -1,19 +1,14 @@
 package com.veljkoilic.instagramclone.auth;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.veljkoilic.instagramclone.config.JwtServiceImpl;
-import com.veljkoilic.instagramclone.email.EmailService;
 import com.veljkoilic.instagramclone.email_confirmation.ConfirmationService;
-import com.veljkoilic.instagramclone.email_confirmation.ConfirmationToken;
 import com.veljkoilic.instagramclone.exception.BadRequestException;
 import com.veljkoilic.instagramclone.exception.NotFoundException;
 import com.veljkoilic.instagramclone.user.UserRepository;
@@ -31,10 +26,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtServiceImpl jwtService;
     private final AuthenticationManager authenticationManager;
     private final ConfirmationService confirmationService;
-    private final EmailService emailService;
-
-    @Value("${localhost.link}")
-    private String siteUrl;
 
     public String register(RegisterRequest request) {
 
@@ -60,10 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // UserDetails).
         var jwtToken = jwtService.generateToken(user);
 
-        ConfirmationToken confToken = createConfirmationToken(user);
-
-        final String link = siteUrl + "/auth/confirm?token=" + confToken.getToken();
-        emailService.send(request.getEmail(), link, "Confirm your Email");
+        confirmationService.sendConfirmationToken(user);
 
         // Build and return response.
         return "Your account has been created. You should receive an activation email shortly.";
@@ -86,15 +74,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // Build and return response.
         return AuthenticationResponse.builder().token(jwtToken).build();
-    }
-
-    // Create Email confirmation token for the given User
-    public ConfirmationToken createConfirmationToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15), user);
-
-        confirmationService.saveConfirmationToken(confirmationToken);
-        return confirmationToken;
     }
 }
