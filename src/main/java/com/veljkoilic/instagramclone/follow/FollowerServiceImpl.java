@@ -26,9 +26,6 @@ public class FollowerServiceImpl implements FollowerService {
         User currentUser = userService.getCurrentUser();
         User userToFollow = userService.findUserByUsername(username);
 
-        if (userToFollow == null)
-            throw new NotFoundException("User with username " + username + "not found");
-
         if (userToFollow.getId() == currentUser.getId())
             throw new BadRequestException("You can't follow yourself");
 
@@ -45,6 +42,20 @@ public class FollowerServiceImpl implements FollowerService {
 
     @Override
     public String unfollowUser(String username) {
+
+        User currentUser = userService.getCurrentUser();
+        User userToUnfollow = userService.findUserByUsername(username);
+
+        if (userToUnfollow.getId() == currentUser.getId())
+            throw new BadRequestException("You can't unfollow yourself");
+
+        Optional<Follow> followExistsCheck = followerRepository.findFollowByFollowerIdAndFollowingId(currentUser.getId(), userToUnfollow.getId());
+
+        if (followExistsCheck.isEmpty())
+            throw new BadRequestException("You are not following this user");
+
+        followerRepository.delete(followExistsCheck.get());
+
         return "Successfully unfollowed user: " + username;
     }
 }
