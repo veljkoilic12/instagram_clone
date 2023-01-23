@@ -61,14 +61,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "creator")
     private List<Comment> comments;
 
-    @ManyToMany
-    @Column(name = "follower")
-    private Set<User> followers = new HashSet<>();
-
-    @ManyToMany(mappedBy = "followers")
-    @Column(name = "follows")
-    Set<User> following = new HashSet<>();
-
     public User(String username, String email, List<Post> posts) {
         this.username = username;
         this.email = email;
