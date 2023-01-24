@@ -41,12 +41,13 @@ public class AuthenticationController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam(name = "email") String userEmail) {
-        return ResponseEntity.ok(passwordResetService.sendToken(userEmail));
+        passwordResetService.sendToken(userEmail);
+        return ResponseEntity.ok("Reset password token successfully sent");
     }
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestParam(name = "token") String token,
                                                  @RequestBody PasswordDTO passwordDTO) {
-        return ResponseEntity.ok(passwordResetService.changeUserPassword(token, passwordDTO));
+        return ResponseEntity.ok(passwordResetService.confirmPasswordToken(token, passwordDTO));
     }
 }

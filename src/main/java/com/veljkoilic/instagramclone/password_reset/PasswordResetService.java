@@ -4,15 +4,13 @@ import com.veljkoilic.instagramclone.user.User;
 
 public interface PasswordResetService {
 
-	void createPasswordResetTokenForUser(User user, String token);
+    void createPasswordResetTokenForUser(User user, String token);
 
-	String sendToken(String email);
+    void sendToken(String email);
 
-	boolean isTokenExpired(PasswordResetToken token);
+    boolean isTokenExpired(PasswordResetToken token);
 
-	boolean arePasswordsMatching(PasswordDTO passwordDTO);
+    boolean arePasswordsMatching(PasswordDTO passwordDTO);
 
-	PasswordResetToken getPasswordToken(String token, PasswordDTO passwordDTO);
-
-	String changeUserPassword(String token, PasswordDTO passwordDTO);
+    String confirmPasswordToken(String token, PasswordDTO passwordDTO);
 }

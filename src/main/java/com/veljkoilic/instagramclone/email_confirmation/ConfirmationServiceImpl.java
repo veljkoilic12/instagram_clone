@@ -41,6 +41,7 @@ public class ConfirmationServiceImpl implements ConfirmationService {
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
             sendConfirmationToken(confirmationToken.getUser());
+            confirmationTokenRepository.delete(confirmationToken);
             throw new BadRequestException("Your token has expired, new activation link has been sent to your email address");
         }
 
